@@ -196,7 +196,11 @@ inline uint8_t inb(uint16_t port) {
 }
 
 inline void outb(uint16_t port, uint16_t data) {
-	asm volatile ("outb %1, %0" : : "dN" (port), "a" (data));
+	//asm volatile ("outb %1, %0" : : "dN" (port), "aq" (data));
+	// assembler complained about %1 being set to %ax (it should be %al)
+	// the following fixes that by using %al explicitly
+	// the input operands load port into %edx and data into %eax
+	asm volatile ("outb %%al, %%dx" : : "dN"(port), "a"(data));
 }
 
 inline void insl(int port, void *addr, int cnt)
