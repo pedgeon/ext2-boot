@@ -6,3 +6,5 @@ ext2util
 kernel
 boot.img
 boot.img.bak
+*.o
+build
